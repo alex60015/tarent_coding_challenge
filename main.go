@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "net/http"
+    "go.reizu.org/servemux"
 )
 
 import "TCC/model"
@@ -10,7 +11,7 @@ import "TCC/client"
 
 var Courses = []model.Course{
     model.Course{
-       Id: 1,
+        Id: "1",
         Name: "How to create a Restful API",
         ProfName: "Goddart Goethe",
         Description: "This time we will discuss how we can plan and create a restful API",
@@ -19,7 +20,7 @@ var Courses = []model.Course{
         Dates: []int{1621949400},
     },
     model.Course{
-        Id: 2,
+        Id: "2",
         Name: "How to create Linux",
         ProfName: "Linus Torvalds",
         Description: "This time we will discuss how to create Linux",
@@ -28,7 +29,7 @@ var Courses = []model.Course{
         Dates: []int{1621941000},
     },
     model.Course{
-        Id: 3,
+        Id: "3",
         Name: "How to Eat",
         ProfName: "Anon",
         Description: "We. Will. Eat",
@@ -38,16 +39,14 @@ var Courses = []model.Course{
     },
 }
 
-func setupEndpoints() {
-    http.HandleFunc("/courses/", client.HandleCourses)
-}
-
-func handleRequests() {
-    client.Courses = Courses
-    setupEndpoints()
-    log.Fatal(http.ListenAndServe(":8000", nil))
-}
-
 func main() {
-    handleRequests()
+    client.Courses = Courses
+
+    mux := servemux.New()
+    mux.HandleFunc("/courses", client.ReturnAllCourses)
+    mux.Handle("/courses/:id", servemux.MethodFuncs{
+        http.MethodGet: client.ReturnCourse,
+    })
+
+    log.Fatal(http.ListenAndServe(":8000", mux))
 }
