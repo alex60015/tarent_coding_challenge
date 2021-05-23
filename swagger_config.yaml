@@ -1,0 +1,180 @@
+swagger: "2.0"
+info:
+  description: "A presentation about a theoretical courses REST-API.\nWorktime till now: 3h"
+  version: "1.0.0"
+  title: "Course REST-API"
+  contact:
+    email: "alexander.august.heinecke@gmail.com"
+host: "courses.de"
+basePath: "/"
+paths:
+  /courses:
+    get:
+      tags: [ "Course" ]
+      summary: "Get all courses"
+      description: ""
+      parameters:
+        - in: "query"
+          name: "timeRange"
+          description: "Time frame in which the courses take place.\nExample: 1621948000-1621950000"
+          required: false
+          type: "string"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Returns all courses"
+          schema:
+            $ref: "#/definitions/AllCourses"
+    post:
+      tags: [ "Course" ]
+      summary: "Add a course"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Course Added"
+          schema:
+            $ref: "#/definitions/Course"
+        "400":
+          description: "Validation failed"
+          schema:
+            $ref: "#/definitions/ValidationFailedError"
+
+  /courses/{courseId}:
+    get:
+      tags: [ "Course" ]
+      summary: "Finds Course by ID"
+      operationId: "findCourseById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "courseId"
+          in: "path"
+          description: "Course ID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "found Course"
+          schema:
+            $ref: "#/definitions/Course"
+    put:
+      tags: [ "Course" ]
+      summary: "Update a course"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "courseId"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "course updated"
+          schema:
+            $ref: "#/definitions/Course"
+        "400":
+          description: "Course does not exist"
+          schema:
+            $ref: "#/definitions/EntityDoesNotExistError"
+
+  /courses/{courseId}/participate:
+    post:
+      tags: [ "Course" ]
+      summary: "Add yourself as a participant"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "courseId"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "userId"
+          in: "header"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "204":
+          description: "User Added"
+        "400":
+          description: "Seats full / course does not exist"
+          schema:
+            $ref: "#/definitions/SeatsFullError"
+
+definitions:
+  AllCourses:
+    type: "array"
+    items:
+      $ref: "#/definitions/Course"
+
+  Course:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 1
+      name:
+        type: "string"
+        description: "Name of the course"
+        example: "How to create a Restful API"
+      profName:
+        type: "string"
+        description: "Name of the professor"
+        example: "Linus Torvalds"
+      description:
+        type: "string"
+        description: "Short description of the course"
+        example: "This time we will discuss how we can plan and create a restful API in go"
+      price:
+        type: "string"
+        description: "Price of the course. Must follow this pattern: 100.00€"
+        example: "00.00€"
+      online:
+        type: "boolean"
+        description: "If the course is online or not"
+        example: true
+      dates:
+        type: "array"
+        items:
+          type: "integer"
+          description: "Date of the course as an timestamp"
+          example: 1621949400
+
+  EntityDoesNotExistError:
+    type: object
+    properties:
+      errorCode:
+        type: "integer"
+        format: "int32"
+        example: 1337
+      errorDescription:
+        type: "string"
+        example: "Entity does not exist"
+
+  SeatsFullError:
+    type: object
+    properties:
+      errorCode:
+        type: "integer"
+        format: "int32"
+        example: 3321
+      errorDescription:
+        type: "string"
+        example: "All seats are taken"
+
+  ValidationFailedError:
+    type: object
+    properties:
+      errorCode:
+        type: "integer"
+        format: "int32"
+        example: 2231
+      errorDescription:
+        type: "string"
+        example: "Validation failed"
