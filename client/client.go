@@ -13,29 +13,26 @@ import "TCC/model"
 
 var Courses []model.Course
 
-func HomePage(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Welcome User")
-    fmt.Println("Endpoint Hit: homePage")
-
-    return
+func HandleCourses(w http.ResponseWriter, r *http.Request) {
+    if r.Method == "GET" {
+        ReturnCourses(w, r)
+    }
 }
 
 func ReturnCourses(w http.ResponseWriter, r *http.Request) {
-    var validId = regexp.MustCompile(`^\/courses[\/]?(?P<id>[\d]{0,10})[\/]?$`)
-    result := validId.FindStringSubmatch(r.URL.Path)
-    fmt.Println(fmt.Sprintf("%#v\n", result))
+    id, err := getIdFromPath(r.URL.Path)
 
-    if (len(result) == 2 && result[1] != "") {
-        id, err := strconv.Atoi(result[1])
-        if err != nil {
-            http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-        }
-        returnCourse(w, r, id)
-    } else if (len(result) != 0) {
-        returnAllCourses(w, r)
-    } else {
+    if err != nil {
+        fmt.Println("Error in ReturnCourses:", err)
         http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+        return
     }
+    if (id != 0) {
+        returnCourse(w, r, id)
+        return
+    }
+
+    returnAllCourses(w, r)
 
     return
 }
@@ -45,21 +42,18 @@ func returnCourse(w http.ResponseWriter, r *http.Request, id int) {
 
     course, err := findCourse(id)
     if (err != nil) {
+        fmt.Println("Course not found in returnCourse:", err)
         http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-        return
     }
 
     fmt.Println(fmt.Sprintf("Course found: %v\n", course.Id))
 
     json.NewEncoder(w).Encode(course)
-    return
 }
 
 func returnAllCourses(w http.ResponseWriter, r *http.Request) {
     fmt.Println("Endpoint Hit: returnAllCourses")
     json.NewEncoder(w).Encode(Courses)
-
-    return
 }
 
 func findCourse(id int) (model.Course, error) {
@@ -70,4 +64,25 @@ func findCourse(id int) (model.Course, error) {
     }
 
     return model.Course{}, errors.New("No course found")
+}
+
+func getIdFromPath(path string) (int, error) {
+    validId := regexp.MustCompile(`^\/courses[\/]?(?P<id>[\d]{0,10})[\/]?$`)
+    result := validId.FindStringSubmatch(path)
+
+    fmt.Println(fmt.Sprintf("%#v\n", result))
+
+    if len(result) == 0 {
+        return 0, errors.New("Invalid Request")
+    } else if (len(result) == 2 && result[1] != "") {
+        id, err := strconv.Atoi(result[1])
+
+        if err != nil {
+            return 0, err
+        }
+
+        return id, nil
+    }
+
+    return 0, nil
 }

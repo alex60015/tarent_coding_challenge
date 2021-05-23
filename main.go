@@ -39,8 +39,7 @@ var Courses = []model.Course{
 }
 
 func setupEndpoints() {
-    http.HandleFunc("/courses/", client.ReturnCourses)
-    http.HandleFunc("/", client.HomePage)
+    http.HandleFunc("/courses/", client.HandleCourses)
 }
 
 func handleRequests() {
