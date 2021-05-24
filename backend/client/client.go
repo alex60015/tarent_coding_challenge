@@ -15,11 +15,13 @@ var Courses []model.Course
 
 func ReturnAllCourses(w http.ResponseWriter, r *http.Request) {
     fmt.Println("Endpoint Hit: returnAllCourses")
+    enableCors(&w)
     json.NewEncoder(w).Encode(Courses)
 }
 
 func ReturnCourse(w http.ResponseWriter, r *http.Request) {
     fmt.Println("Endpoint Hit: returnCourse")
+    enableCors(&w)
 
     course, err := findCourse(servemux.Value(r, "id"))
     if err != nil {
@@ -34,6 +36,7 @@ func ReturnCourse(w http.ResponseWriter, r *http.Request) {
 
 func UpdateCourse(w http.ResponseWriter, r *http.Request) {
     fmt.Println("Endpoint Hit: UpdateCourse")
+    enableCors(&w)
 
     course, err := findCourse(servemux.Value(r, "id"))
     if err != nil {
@@ -52,6 +55,11 @@ func UpdateCourse(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(newCourse)
 
     fmt.Println("Course Updated:", newCourse.Id)
+}
+
+// For freaking localhost... god damned.
+func enableCors(w *http.ResponseWriter) {
+    (*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 func courseNotFound(w http.ResponseWriter, r *http.Request, err error) {
