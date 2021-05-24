@@ -79,9 +79,9 @@ export default class EditCourse extends Component {
                             Online:
                             <input
                                 type="checkbox"
-                                name="price"
+                                name="online"
                                 value={course.online}
-                                alt="Preis"
+                                alt="Online"
                                 onChange={this.onChangeHandler}
                             />
                         </p>

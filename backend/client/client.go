@@ -93,6 +93,16 @@ func mergeCourses(persistedCourse model.Course, newCourse model.Course) model.Co
     if newCourse.Name != "" {
         persistedCourse.Name = newCourse.Name
     }
+    if newCourse.ProfName != "" {
+        persistedCourse.ProfName = newCourse.ProfName
+    }
+    if newCourse.Description != "" {
+        persistedCourse.Description = newCourse.Description
+    }
+    if newCourse.Price != "" {
+        persistedCourse.Price = newCourse.Price
+    }
+    persistedCourse.Online = newCourse.Online
 
     return persistedCourse
 }
