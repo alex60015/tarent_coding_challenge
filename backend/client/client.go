@@ -44,7 +44,11 @@ func UpdateCourse(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    newCourse := generateCourseFromBody(course, r)
+    newCourse, err := generateCourseFromBody(course, r)
+    if err != nil {
+        fmt.Println("Error while generating course:", err)
+        http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+    }
 
     for index, course := range Courses {
         if course.Id == newCourse.Id {
@@ -54,7 +58,7 @@ func UpdateCourse(w http.ResponseWriter, r *http.Request) {
 
     json.NewEncoder(w).Encode(newCourse)
 
-    fmt.Println("Course Updated:", newCourse.Id)
+    fmt.Println("Course Updated! ID:", newCourse.Id)
 }
 
 // For freaking localhost... god damned.
@@ -77,16 +81,18 @@ func findCourse(id string) (model.Course, error) {
     return model.Course{}, errors.New("No course found")
 }
 
-func generateCourseFromBody(course model.Course, r *http.Request) (model.Course) {
-    fmt.Println("Update Course ...", course.Id)
+func generateCourseFromBody(course model.Course, r *http.Request) (model.Course, error) {
+    fmt.Println("Update Course ... ID:", course.Id)
     var tmpCourse model.Course
 
     body, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        return model.Course{}, err
+    }
+
     json.Unmarshal(body, &tmpCourse)
 
-    fmt.Println("Update Course ...", tmpCourse, err)
-
-    return mergeCourses(course, tmpCourse)
+    return mergeCourses(course, tmpCourse), nil
 }
 
 func mergeCourses(persistedCourse model.Course, newCourse model.Course) model.Course {
