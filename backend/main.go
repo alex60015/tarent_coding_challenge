@@ -47,6 +47,7 @@ func main() {
     mux.Handle("/courses/:id", servemux.MethodFuncs{
         http.MethodGet: client.ReturnCourse,
         http.MethodPut: client.UpdateCourse,
+        http.MethodOptions: client.HandleOptionsCall,
     })
 
     log.Fatal(http.ListenAndServe(":8000", mux))

@@ -30,7 +30,7 @@ func TestReturnAllCourses(t *testing.T) {
     got := strings.TrimRight(requestRecorder.Body.String(), "\n")
 
     if expected != got {
-        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, requestRecorder.Body.String())
+        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, got)
     }
 }
 
@@ -56,7 +56,7 @@ func TestReturnCourse(t *testing.T) {
     got := strings.TrimRight(requestRecorder.Body.String(), "\n")
 
     if expected != got {
-        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, requestRecorder.Body.String())
+        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, got)
     }
 }
 
@@ -83,7 +83,7 @@ func TestUpdateCourse(t *testing.T) {
     got := strings.TrimRight(requestRecorder.Body.String(), "\n")
 
     if expected != got {
-        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, requestRecorder.Body.String())
+        t.Errorf("Returned wrong response: \n wanted %v \n got %v", expected, got)
     }
 }
 

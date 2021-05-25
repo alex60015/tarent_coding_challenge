@@ -61,7 +61,13 @@ func UpdateCourse(w http.ResponseWriter, r *http.Request) {
     fmt.Println("Course Updated! ID:", newCourse.Id)
 }
 
-// For freaking localhost... god damned.
+func HandleOptionsCall(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Options Hit: HandleOptionsCall")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
+    w.WriteHeader(http.StatusOK)
+}
+
 func enableCors(w *http.ResponseWriter) {
     (*w).Header().Set("Access-Control-Allow-Origin", "*")
 }

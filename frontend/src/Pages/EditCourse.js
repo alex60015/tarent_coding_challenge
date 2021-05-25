@@ -37,13 +37,10 @@ export default class EditCourse extends Component {
     saveCourse = (event) => {
         const options = {
             method: "PUT",
-            body: JSON.stringify(this.state.course),
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            },
+            body: JSON.stringify(this.state.course)
         }
 
-        fetch("http://lvh.me:8000/courses/" + this.props.courseId, options)
+        fetch("http://localhost:8000/courses/" + this.props.courseId, options)
             .then(response => response.json())
             .then(json => {
                 console.log(json)

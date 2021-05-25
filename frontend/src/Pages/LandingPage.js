@@ -18,7 +18,7 @@ export default class LandingPage extends Component {
     }
 
     updateList = () => {
-        fetch("http://lvh.me:8000/courses")
+        fetch("http://localhost:8000/courses")
             .then(response => response.json())
             .then(json => this.setState((state, props) => ({
                 courses: json
