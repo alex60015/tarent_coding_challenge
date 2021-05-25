@@ -7,5 +7,5 @@ type Course struct {
     Description  string `json:"description"`
     Price  string `json:"price"`
     Online  bool `json:"online"`
-    Dates []int `json:"dates"`
+    Date int `json:"date,omitempty"`
 }

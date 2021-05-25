@@ -32,27 +32,11 @@ const CourseEntry = (course) => (
             <p className="name">Name: {course.name}</p>
             <p className="prof">Dozent: {course.prof_name}</p>
             <p className="price">Preis: {course.price}</p>
-            <p className="online">Online: {isOnline(course.online)}</p>
-            <p className="dates">Zeitpunkt(e): {dates(course.dates)}</p>
+            <p className="online">
+                Online: {course.online ? <span className="check" /> : <span className="cross">X</span>}</p>
+            <p className="date">
+                Zeitpunkt: <span key={course.date}>{new Date(course.date).toLocaleString("de-de")}</span>
+            </p>
         </div>
     </div>
-)
-
-const dates = (dates) => {
-    let selectedDates = dates
-
-    if (selectedDates.length > 2) {
-        selectedDates = dates.slice(-2)
-    }
-
-    return (
-        selectedDates.map((date) => {
-            const convertedDate = new Date(date);
-            return <span key={date}>{convertedDate.toLocaleString("de-de")}</span>
-        })
-    )
-}
-
-const isOnline = (online) => (
-    online ? <span className="check" /> : <span className="cross">X</span>
 )

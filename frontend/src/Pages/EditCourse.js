@@ -68,10 +68,10 @@ export default class EditCourse extends Component {
                         <span>Bild<br />vom<br />Kurs</span>
                     </div>
                     <div className="data">
-                        <EditableProperty name={"name"} label={"Name"} value={course.name} onChangeHandler={this.onChangeHandler} />
-                        <EditableProperty name={"prof_name"} label={"Dozent"} value={course.prof_name} onChangeHandler={this.onChangeHandler} />
-                        <EditableProperty name={"description"} label={"Beschreibung"} value={course.description} onChangeHandler={this.onChangeHandler} />
-                        <EditableProperty name={"price"} label={"Preis"} value={course.price} onChangeHandler={this.onChangeHandler} />
+                        <EditableProperty name="name" label="Name" value={course.name} onChangeHandler={this.onChangeHandler} />
+                        <EditableProperty name="prof_name" label="Dozent" value={course.prof_name} onChangeHandler={this.onChangeHandler} />
+                        <EditableProperty name="description" label="Beschreibung" value={course.description} onChangeHandler={this.onChangeHandler} />
+                        <EditableProperty name="price" label="Preis" value={course.price} onChangeHandler={this.onChangeHandler} />
                         <p className="online">
                             Online:
                             <input
@@ -82,7 +82,16 @@ export default class EditCourse extends Component {
                                 onChange={this.onChangeHandler}
                             />
                         </p>
-                        <p className="dates">Zeitpunkt(e): {course.dates}</p>
+
+                        <p className="date">Zeitpunkt:
+                            <input
+                                name="date"
+                                type="number"
+                                value={course.date}
+                                alt="Zeitpunkt"
+                                onChange={this.onChangeHandler}
+                            />
+                        </p>
                     </div>
                     <button onClick={this.saveCourse}>Speichern</button>
                 </div>
@@ -96,16 +105,14 @@ class EditableProperty extends Component {
         const { name, label, value, onChangeHandler } = this.props
 
         return (
-            <a onClick={this.onChangeHandler}>
-                <p className={name}>{label}:
-                    <input
-                        name={name}
-                        value={value}
-                        alt={label}
-                        onChange={onChangeHandler}
-                    />
-                </p>
-            </a>
+            <p className={name}>{label}:
+                <input
+                    name={name}
+                    value={value}
+                    alt={label}
+                    onChange={onChangeHandler}
+                />
+            </p>
         )
     }
 }

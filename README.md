@@ -15,3 +15,5 @@
 For the documentation I use swagger  
 To see the documentation without having the whole swagger server online,  
 please visit https://editor.swagger.io/ and copy the whole swagger_config.yaml in it.
+## Known problems / errors
+- Date of the course is not parsed & saved correctly

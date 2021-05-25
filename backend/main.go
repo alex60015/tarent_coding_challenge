@@ -17,7 +17,7 @@ var Courses = []model.Course{
         Description: "This time we will discuss how we can plan and create a restful API",
         Price: "10.00€",
         Online: true,
-        Dates: []int{1621949400000},
+        Date: 1621949400000,
     },
     model.Course{
         Id: "2",
@@ -26,7 +26,7 @@ var Courses = []model.Course{
         Description: "This time we will discuss how to create Linux",
         Price: "00.00€",
         Online: true,
-        Dates: []int{1621941000000, 1621941500000, 1621942000000},
+        Date: 1621941000000,
     },
     model.Course{
         Id: "3",
@@ -35,7 +35,7 @@ var Courses = []model.Course{
         Description: "We. Will. Eat",
         Price: "100.00€",
         Online: false,
-        Dates: []int{1621942465000},
+        Date: 1621942465000,
     },
 }
 

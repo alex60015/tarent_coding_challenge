@@ -114,6 +114,9 @@ func mergeCourses(persistedCourse model.Course, newCourse model.Course) model.Co
     if newCourse.Price != "" {
         persistedCourse.Price = newCourse.Price
     }
+    if newCourse.Date > 0 {
+        persistedCourse.Date = newCourse.Date
+    }
     persistedCourse.Online = newCourse.Online
 
     return persistedCourse

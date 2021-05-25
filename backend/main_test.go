@@ -11,7 +11,7 @@ import (
 import "TCC/client"
 
 func TestReturnAllCourses(t *testing.T) {
-    expected := `[{"id":"1","name":"How to create a Restful API","prof_name":"Goddart Goethe","description":"This time we will discuss how we can plan and create a restful API","price":"10.00€","online":true,"dates":[1621949400000]},{"id":"2","name":"How to create Linux","prof_name":"Linus Torvalds","description":"This time we will discuss how to create Linux","price":"00.00€","online":true,"dates":[1621941000000,1621941500000,1621942000000]},{"id":"3","name":"How to Eat","prof_name":"Anon","description":"We. Will. Eat","price":"100.00€","online":false,"dates":[1621942465000]}]`
+    expected := `[{"id":"1","name":"How to create a Restful API","prof_name":"Goddart Goethe","description":"This time we will discuss how we can plan and create a restful API","price":"10.00€","online":true,"date":1621949400000},{"id":"2","name":"How to create Linux","prof_name":"Linus Torvalds","description":"This time we will discuss how to create Linux","price":"00.00€","online":true,"date":1621941000000},{"id":"3","name":"How to Eat","prof_name":"Anon","description":"We. Will. Eat","price":"100.00€","online":false,"date":1621942465000}]`
     client.Courses = Courses
 
     mux := initMux()
@@ -35,7 +35,7 @@ func TestReturnAllCourses(t *testing.T) {
 }
 
 func TestReturnCourse(t *testing.T) {
-    expected := `{"id":"1","name":"How to create a Restful API","prof_name":"Goddart Goethe","description":"This time we will discuss how we can plan and create a restful API","price":"10.00€","online":true,"dates":[1621949400000]}`
+    expected := `{"id":"1","name":"How to create a Restful API","prof_name":"Goddart Goethe","description":"This time we will discuss how we can plan and create a restful API","price":"10.00€","online":true,"date":1621949400000}`
     client.Courses = Courses
 
     mux := initMux()
@@ -61,8 +61,8 @@ func TestReturnCourse(t *testing.T) {
 }
 
 func TestUpdateCourse(t *testing.T) {
-    sending := `{"id":"2","name":"Captured!","prof_name":"Tester","description":"Captured from the testing unit","price":"UNLIMITED","online":true,"dates":[1621949400000]}`
-    expected := `{"id":"1","name":"Captured!","prof_name":"Tester","description":"Captured from the testing unit","price":"UNLIMITED","online":true,"dates":[1621949400000]}`
+    sending := `{"id":"2","name":"Captured!","prof_name":"Tester","description":"Captured from the testing unit","price":"UNLIMITED","online":true,"date":1621949400000}`
+    expected := `{"id":"1","name":"Captured!","prof_name":"Tester","description":"Captured from the testing unit","price":"UNLIMITED","online":true,"date":1621949400000}`
     client.Courses = Courses
 
     mux := initMux()
